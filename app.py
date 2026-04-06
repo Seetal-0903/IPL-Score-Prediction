@@ -2,9 +2,20 @@
 from flask import Flask, render_template, request
 import pickle
 import numpy as np
+import sklearn.linear_model._base
+import sys
+import os
 
 # Load the Random Forest CLassifier model
-filename = 'first-innings-score-lr-model.pkl'
+# filename = 'first-innings-score-lr-model.pkl'
+
+sys.modules['sklearn.linear_model.base'] = sklearn.linear_model._base
+
+# safer model path for Render
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+filename = os.path.join(BASE_DIR, 'first-innings-score-lr-model.pkl')
+
+
 regressor = pickle.load(open(filename, 'rb'))
 
 app = Flask(__name__)
