@@ -2,20 +2,12 @@
 from flask import Flask, render_template, request
 import pickle
 import numpy as np
-import os
 
 # Load the Random Forest CLassifier model
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+filename = 'first-innings-score-lr-model.pkl'
+regressor = pickle.load(open(filename, 'rb'))
 
-app = Flask(
-    __name__,
-    template_folder=os.path.join(BASE_DIR, "templates"),
-    static_folder=os.path.join(BASE_DIR, "static")
-)
-
-# Load model safely
-model_path = os.path.join(BASE_DIR, 'first-innings-score-lr-model.pkl')
-regressor = pickle.load(open(model_path, 'rb'))
+app = Flask(__name__)
 
 @app.route('/')
 def home():
@@ -81,4 +73,4 @@ def predict():
 
 
 if __name__ == '__main__':
-	app.run()
+	app.run(debug=True)
